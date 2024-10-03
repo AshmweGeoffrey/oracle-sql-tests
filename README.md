@@ -147,5 +147,64 @@ SELECT
 FROM 
     category;
 ```
+### Oracle SetUp
+```sql
+#Creating User 
+SQL> CREATE USER C##geoffrey_plsqlauca IDENTIFIED BY "G3offrey#002" 
+DEFAULT TABLESPACE users 
+TEMPORARY TABLESPACE temp;  2    3  
 
+User created.
+
+#Grant Privilleges
+
+SQL> GRANT ALL PRIVILEGES TO C##geoffrey_plsqlauca CONTAINER=ALL;
+
+Grant succeeded.
+
+# Pluggable Database
+
+SQL> CREATE PLUGGABLE DATABASE ge_to_delete_pdb 
+ADMIN USER pdb_admin IDENTIFIED BY "AdminPass123"
+ROLES = (CONNECT)
+FILE_NAME_CONVERT = ('/opt/oracle/oradata/XE/pdbseed/', '/opt/oracle/oradata/XE/ge_to_delete_pdb/');  2    3    4  
+
+Pluggable database created.
+
+SQL> ALTER PLUGGABLE DATABASE ge_to_delete_pdb OPEN;
+
+Pluggable database altered.
+
+SQL> SELECT name, open_mode FROM v$pdbs;
+
+NAME
+--------------------------------------------------------------------------------
+OPEN_MODE
+----------
+PDB$SEED
+READ ONLY
+
+XEPDB1
+READ WRITE
+
+GE_TO_DELETE_PDB
+READ WRITE
+
+
+SQL> 
+SQL> ALTER SESSION SET CONTAINER = CDB$ROOT;
+
+Session altered.
+
+SQL> 
+SQL> ALTER PLUGGABLE DATABASE ge_to_delete_pdb CLOSE IMMEDIATE;
+
+
+Pluggable database altered.
+
+SQL> SQL> DROP PLUGGABLE DATABASE ge_to_delete_pdb INCLUDING DATAFILES;
+
+
+Pluggable database dropped.
+```
 This README provides an overview of the SQL operations and structure in this repository. Each script contains more detailed operations and can be referenced for specific use cases.
